@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="weedalyzer">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/weedalyzer.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
