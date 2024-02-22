@@ -15,6 +15,7 @@
 		0690900D2B81D2E30040935C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0690900C2B81D2E30040935C /* Assets.xcassets */; };
 		069090102B81D2E30040935C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0690900E2B81D2E30040935C /* LaunchScreen.storyboard */; };
 		502E7ACF2B87EFCE007C2490 /* Roboflow in Frameworks */ = {isa = PBXBuildFile; productRef = 502E7ACE2B87EFCE007C2490 /* Roboflow */; };
+		502E7AD12B87F1CE007C2490 /* RoboflowApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E7AD02B87F1CE007C2490 /* RoboflowApi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		0690900C2B81D2E30040935C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0690900F2B81D2E30040935C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		069090112B81D2E30040935C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		502E7AD02B87F1CE007C2490 /* RoboflowApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoboflowApi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				069090002B81D2DE0040935C /* AppDelegate.swift */,
 				069090022B81D2DE0040935C /* SceneDelegate.swift */,
 				069090042B81D2DE0040935C /* ViewController.swift */,
+				502E7AD02B87F1CE007C2490 /* RoboflowApi.swift */,
 				069090062B81D2DE0040935C /* Main.storyboard */,
 				0690900C2B81D2E30040935C /* Assets.xcassets */,
 				0690900E2B81D2E30040935C /* LaunchScreen.storyboard */,
@@ -151,6 +154,7 @@
 			files = (
 				069090052B81D2DE0040935C /* ViewController.swift in Sources */,
 				0690900B2B81D2DE0040935C /* VisionProject.xcdatamodeld in Sources */,
+				502E7AD12B87F1CE007C2490 /* RoboflowApi.swift in Sources */,
 				069090012B81D2DE0040935C /* AppDelegate.swift in Sources */,
 				069090032B81D2DE0040935C /* SceneDelegate.swift in Sources */,
 			);
