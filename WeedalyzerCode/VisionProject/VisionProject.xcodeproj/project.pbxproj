@@ -14,6 +14,7 @@
 		0690900B2B81D2DE0040935C /* VisionProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 069090092B81D2DE0040935C /* VisionProject.xcdatamodeld */; };
 		0690900D2B81D2E30040935C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0690900C2B81D2E30040935C /* Assets.xcassets */; };
 		069090102B81D2E30040935C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0690900E2B81D2E30040935C /* LaunchScreen.storyboard */; };
+		502E7ACF2B87EFCE007C2490 /* Roboflow in Frameworks */ = {isa = PBXBuildFile; productRef = 502E7ACE2B87EFCE007C2490 /* Roboflow */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				502E7ACF2B87EFCE007C2490 /* Roboflow in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +88,9 @@
 			dependencies = (
 			);
 			name = VisionProject;
+			packageProductDependencies = (
+				502E7ACE2B87EFCE007C2490 /* Roboflow */,
+			);
 			productName = VisionProject;
 			productReference = 06908FFD2B81D2DE0040935C /* VisionProject.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +119,9 @@
 				Base,
 			);
 			mainGroup = 06908FF42B81D2DE0040935C;
+			packageReferences = (
+				502E7ACD2B87EFCE007C2490 /* XCRemoteSwiftPackageReference "swift-sdk" */,
+			);
 			productRefGroup = 06908FFE2B81D2DE0040935C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -367,6 +375,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		502E7ACD2B87EFCE007C2490 /* XCRemoteSwiftPackageReference "swift-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/roboflow/swift-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		502E7ACE2B87EFCE007C2490 /* Roboflow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 502E7ACD2B87EFCE007C2490 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			productName = Roboflow;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		069090092B81D2DE0040935C /* VisionProject.xcdatamodeld */ = {
