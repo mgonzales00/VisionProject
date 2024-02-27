@@ -12,11 +12,14 @@ func uploadImage(imagepath: String) {
     // Load Image and Convert to Base64
     let image = UIImage(named: imagepath) // path to image to upload ex: image.jpg
     let imageData = image?.jpegData(compressionQuality: 1)
+    let fileURL = URL(fileURLWithPath: imagepath)
+    let fileName = fileURL.lastPathComponent
     let fileContent = imageData?.base64EncodedString()
     let postData = fileContent!.data(using: .utf8)
+    let APIKey = "NbbVN5cnQoPAAW8NBSNK"
 
     // Initialize Inference Server Request with API_KEY, Model, and Model Version
-    var request = URLRequest(url: URL(string: "https://detect.roboflow.com/your-model/your-model-version?api_key=YOUR_APIKEY&name=YOUR_IMAGE.jpg")!,timeoutInterval: Double.infinity)
+    var request = URLRequest(url: URL(string: "https://detect.roboflow.com/your-model/your-model-version?api_key=\(APIKey)&name=\(fileName).jpg")!,timeoutInterval: Double.infinity)
     request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     request.httpMethod = "POST"
     request.httpBody = postData
