@@ -19,7 +19,7 @@ func uploadImage(imagepath: String) {
     let APIKey = "NbbVN5cnQoPAAW8NBSNK"
 
     // Initialize Inference Server Request with API_KEY, Model, and Model Version
-    var request = URLRequest(url: URL(string: "https://detect.roboflow.com/your-model/your-model-version?api_key=\(APIKey)&name=\(fileName).jpg")!,timeoutInterval: Double.infinity)
+    var request = URLRequest(url: URL(string: "https://detect.roboflow.com/weed-identification-plxb0/5?api_key=\(APIKey)&name=\(fileName).jpg")!,timeoutInterval: Double.infinity)
     request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     request.httpMethod = "POST"
     request.httpBody = postData
