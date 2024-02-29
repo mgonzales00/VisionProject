@@ -1,11 +1,9 @@
 import AVFoundation
 import UIKit
-import Foundation
 
 class ViewController: UIViewController {
     
-    var captureSession: AVCaptureSession?
-    var photoOutput: AVCapturePhotoOutput?
+    var session: AVCaptureSession?
     
     let output = AVCapturePhotoOutput()
     
@@ -32,12 +30,12 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpCamera()
         view.backgroundColor = .black
         view.layer.addSublayer(previewLayer)
         view.addSubview(shutterButton)
         view.addSubview(boxView) // Adding the box view
         checkCameraPermissions()
+        
         shutterButton.addTarget(self, action: #selector(didTapTakePhoto), for: .touchUpInside)
     }
     
@@ -92,7 +90,7 @@ class ViewController: UIViewController {
                 previewLayer.session = session
                 
                 session.startRunning()
-                self.captureSession = session
+                self.session = session
             }
             catch{
                 print(error)
@@ -108,79 +106,56 @@ class ViewController: UIViewController {
 
 
 extension ViewController: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?, imagepath: String) {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let data = photo.fileDataRepresentation(), let image = UIImage(data: data) else {
-            let image = UIImage(named: imagepath) // path to image to upload ex: image.jpg
-            let imageData = image?.jpegData(compressionQuality: 1)
-            let fileContent = imageData?.base64EncodedString()
-            let postData = fileContent!.data(using: .utf8)
-
-            // Initialize Inference Server Request with API_KEY, Model, and Model Version
-            var request = URLRequest(url: URL(string: "https://universe.roboflow.com/vision-project-jebqq/weed-identification-plxb0/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true")!,timeoutInterval: Double.infinity)
-            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.httpMethod = "POST"
-            request.httpBody = postData
-
-            // Execute Post Request
-            URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
-                
-                // Parse Response to String
-                guard let data = data else {
-                    print(String(describing: error))
-                    return
-                }
-                
-                // Convert Response String to Dictionary
-                do {
-                    let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                } catch {
-                    print(error.localizedDescription)
-                }
-                
-                // Print String Response
-                print(String(data: data, encoding: .utf8)!)
-            }).resume()
             return
         }
-        captureSession?.stopRunning()
 
-               // Display the captured photo
-               let capturedImageView = UIImageView(image: image)
-               capturedImageView.contentMode = .scaleAspectFill
-               capturedImageView.frame = view.bounds
-               view.addSubview(capturedImageView)
+        session?.stopRunning()
 
-               // Create an overlay view for the area above the boxView
-               let topOverlayView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: boxView.frame.minY))
-               let topMaskLayer = CAShapeLayer()
-               topMaskLayer.path = UIBezierPath(roundedRect: topOverlayView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 30, height: 30)).cgPath
-               topOverlayView.layer.mask = topMaskLayer
-               topOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-               view.addSubview(topOverlayView)
+        // Display the captured photo
+        let capturedImageView = UIImageView(image: image)
+        capturedImageView.contentMode = .scaleAspectFill
+        capturedImageView.frame = view.bounds
+        view.addSubview(capturedImageView)
 
-               // Create an overlay view for the area below the boxView
-               let bottomOverlayView = UIView(frame: CGRect(x: 0, y: boxView.frame.maxY, width: view.bounds.width, height: view.bounds.height - boxView.frame.maxY))
-               let bottomMaskLayer = CAShapeLayer()
-               bottomMaskLayer.path = UIBezierPath(roundedRect: bottomOverlayView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 30, height: 30)).cgPath
-               bottomOverlayView.layer.mask = bottomMaskLayer
-               bottomOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-               view.addSubview(bottomOverlayView)
+        // Create an overlay view for the area above the boxView
+        let topOverlayView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: boxView.frame.minY))
+        let topMaskLayer = CAShapeLayer()
+        topMaskLayer.path = UIBezierPath(roundedRect: topOverlayView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 30, height: 30)).cgPath
+        topOverlayView.layer.mask = topMaskLayer
+        topOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addSubview(topOverlayView)
 
-               // Create an overlay view for the area to the left of the boxView
-               let leftOverlayView = UIView(frame: CGRect(x: 0, y: boxView.frame.minY, width: boxView.frame.minX, height: boxView.frame.height))
-               leftOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-               view.addSubview(leftOverlayView)
+        // Create an overlay view for the area below the boxView
+        let bottomOverlayView = UIView(frame: CGRect(x: 0, y: boxView.frame.maxY, width: view.bounds.width, height: view.bounds.height - boxView.frame.maxY))
+        let bottomMaskLayer = CAShapeLayer()
+        bottomMaskLayer.path = UIBezierPath(roundedRect: bottomOverlayView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 30, height: 30)).cgPath
+        bottomOverlayView.layer.mask = bottomMaskLayer
+        bottomOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addSubview(bottomOverlayView)
 
-               // Create an overlay view for the area to the right of the boxView
-               let rightOverlayView = UIView(frame: CGRect(x: boxView.frame.maxX, y: boxView.frame.minY, width: view.bounds.width - boxView.frame.maxX, height: boxView.frame.height))
-               rightOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-               view.addSubview(rightOverlayView)
+        // Create an overlay view for the area to the left of the boxView
+        let leftOverlayView = UIView(frame: CGRect(x: 0, y: boxView.frame.minY, width: boxView.frame.minX, height: boxView.frame.height))
+        leftOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addSubview(leftOverlayView)
 
-               // Keep the boxView visible
-               view.bringSubviewToFront(boxView)
+        // Create an overlay view for the area to the right of the boxView
+        let rightOverlayView = UIView(frame: CGRect(x: boxView.frame.maxX, y: boxView.frame.minY, width: view.bounds.width - boxView.frame.maxX, height: boxView.frame.height))
+        rightOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.addSubview(rightOverlayView)
 
-               // Optionally, you can save the captured image to your photo library
-               // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-       
+        // Keep the boxView visible
+        view.bringSubviewToFront(boxView)
+
+        // Optionally, you can save the captured image to your photo library
+        // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
 }
+
+
+
+
+
+
+
