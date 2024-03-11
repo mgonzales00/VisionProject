@@ -84,7 +84,9 @@ class ViewController: UIViewController {
                 }
                 if session.canAddOutput(output) {
                     session.addOutput(output)
+                    
                 }
+                
                 
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
@@ -107,10 +109,10 @@ class ViewController: UIViewController {
 
 extension ViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let data = photo.fileDataRepresentation(), let image = UIImage(data: data) else {
+        guard let data = photo.fileDataRepresentation() else {
             return
         }
-
+        let image = UIImage(data:data)
         session?.stopRunning()
 
         // Display the captured photo
