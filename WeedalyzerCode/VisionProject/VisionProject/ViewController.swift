@@ -112,47 +112,67 @@ extension ViewController: AVCapturePhotoCaptureDelegate {
         guard let data = photo.fileDataRepresentation() else {
             return
         }
-        let image = UIImage(data:data)
+        let image = UIImage(data: data)
+        
+        func getDocumentsDirectory() -> URL {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            return paths[0]
+        }
+        if let image = UIImage(named: "example.jpg"){
+            if let data = image.jpegData(compressionQuality: 0.8){
+                let filename = getDocumentsDirectory().appendingPathComponent("copy.png")
+                try? data.write(to: filename)
+            }
+        }
         session?.stopRunning()
-
+        
         // Display the captured photo
-        let capturedImageView = UIImageView(image: image)
-        capturedImageView.contentMode = .scaleAspectFill
-        capturedImageView.frame = view.bounds
-        view.addSubview(capturedImageView)
-
-        // Create an overlay view for the area above the boxView
-        let topOverlayView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: boxView.frame.minY))
-        let topMaskLayer = CAShapeLayer()
-        topMaskLayer.path = UIBezierPath(roundedRect: topOverlayView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 30, height: 30)).cgPath
-        topOverlayView.layer.mask = topMaskLayer
-        topOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.addSubview(topOverlayView)
-
-        // Create an overlay view for the area below the boxView
-        let bottomOverlayView = UIView(frame: CGRect(x: 0, y: boxView.frame.maxY, width: view.bounds.width, height: view.bounds.height - boxView.frame.maxY))
-        let bottomMaskLayer = CAShapeLayer()
-        bottomMaskLayer.path = UIBezierPath(roundedRect: bottomOverlayView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 30, height: 30)).cgPath
-        bottomOverlayView.layer.mask = bottomMaskLayer
-        bottomOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.addSubview(bottomOverlayView)
-
-        // Create an overlay view for the area to the left of the boxView
-        let leftOverlayView = UIView(frame: CGRect(x: 0, y: boxView.frame.minY, width: boxView.frame.minX, height: boxView.frame.height))
-        leftOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.addSubview(leftOverlayView)
-
-        // Create an overlay view for the area to the right of the boxView
-        let rightOverlayView = UIView(frame: CGRect(x: boxView.frame.maxX, y: boxView.frame.minY, width: view.bounds.width - boxView.frame.maxX, height: boxView.frame.height))
-        rightOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.addSubview(rightOverlayView)
-
+        
+        
+        
         // Keep the boxView visible
-        view.bringSubviewToFront(boxView)
+        
 
+        
         // Optionally, you can save the captured image to your photo library
         // UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
+    func uploadImage(imagepath: String){
+        let image = UIImage(named: imagepath)
+        let imageData = image?.jpegData(compressionQuality: 1)
+        let fileURL = URL(fileURLWithPath: imagepath)
+        let fileName = fileURL.lastPathComponent
+        let fileContent = imageData?.base64EncodedString()
+        let postData = fileContent!.data(using: .utf8)
+        let APIKey = "NbbVN5cnQoPAAW8NBSNK"
+        
+        // Initialize Inference Server Request with API_KEY, Model, and Model Version
+        var request = URLRequest(url: URL(string: "https://detect.roboflow.com/weed-identification-plxb0/5?api_key=\(APIKey)&name=\(fileName).jpg")!,timeoutInterval: Double.infinity)
+        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        
+        // Execute Post Request
+        URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+            
+            // Parse Response to String
+            guard let data = data else {
+                print(String(describing: error))
+                return
+            }
+            
+            // Convert Response String to Dictionary
+            do {
+                let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            // Print String Response
+            print(String(data: data, encoding: .utf8)!)
+        }).resume()
+    }
+    
 }
 
 
