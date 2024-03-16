@@ -1,10 +1,7 @@
 import UIKit
 import Photos
 
-class ViewController: UIViewController{
-    
-    
-    
+class ViewController: UIViewController {
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var cameraPreview: UIImageView!
     
@@ -23,7 +20,6 @@ class ViewController: UIViewController{
         print(documentsDirectory.path)
     }
     
-     
     @IBAction func tappedCameraButton(_ sender: Any) {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
@@ -45,11 +41,6 @@ class ViewController: UIViewController{
             print("We don't have access to your Photos.")
         }
     }
-    
-    
-        
-        
-    
     
 }
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -82,11 +73,11 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         print(documentsDirectory.path)
         let imageFolderURL = documentsDirectory.appendingPathComponent("Images")
         
-        do{
+        do {
             try FileManager.default.createDirectory(at: imageFolderURL, withIntermediateDirectories: true,
                 attributes: nil)
         }
-        catch{
+        catch {
             print(error)
             return
         }
@@ -94,7 +85,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         let fileURL = imageFolderURL.appendingPathComponent("plant.jpeg")
         
         if let imageData = image.jpegData(compressionQuality: 1){
-            do{
+            do {
                 try imageData.write(to: fileURL)
                 print("Image saved")
             }
@@ -102,7 +93,6 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
                 print(error)
             }
         }
+
     }
 }
-
-
