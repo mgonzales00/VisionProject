@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-func uploadImage(imagepath: String) {
+func uploadImage(imagepath: String) -> String {
     // Load Image and Convert to Base64
     let image = UIImage(named: imagepath) // path to image to upload ex: image.jpg
     let imageData = image?.jpegData(compressionQuality: 1)
@@ -17,9 +17,10 @@ func uploadImage(imagepath: String) {
     let fileContent = imageData?.base64EncodedString()
     let postData = fileContent!.data(using: .utf8)
     let APIKey = "NbbVN5cnQoPAAW8NBSNK"
+    var responseString: String = ""
 
     // Initialize Inference Server Request with API_KEY, Model, and Model Version
-    var request = URLRequest(url: URL(string: "https://detect.roboflow.com/weed-identification-plxb0/5?api_key=\(APIKey)&name=\(fileName).jpg")!,timeoutInterval: Double.infinity)
+    var request = URLRequest(url: URL(string: "https://detect.roboflow.com/weed-identification-plxb0/1?api_key=\(APIKey)&name=\(fileName).jpg")!,timeoutInterval: Double.infinity)
     request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
     request.httpMethod = "POST"
     request.httpBody = postData
@@ -40,8 +41,12 @@ func uploadImage(imagepath: String) {
             print(error.localizedDescription)
         }
         
-        // Print String Response
-        print(String(data: data, encoding: .utf8)!)
+        if let string = String(data: data, encoding: .utf8) {
+            responseString = string
+        } else {
+            responseString = "Error converting data to string"
+        }
     }).resume()
-}
 
+    return responseString;
+}
