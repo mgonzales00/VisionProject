@@ -39,9 +39,8 @@ class ViewController: UIViewController {
                 print("No image to upload")
                 return
             }
-        uploadImage(imagepath: image)
+        uploadImage(image: image)
     }
-    
     
 }
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -96,4 +95,56 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         }
 
     }
+    func uploadImage(image: UIImage) {
+        // Load image data from the file path
+        
+        // Convert the image to data
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+            print("Failed to convert image to data")
+            return
+        }
+        
+        // Convert image data to base64 string
+        let base64String = imageData.base64EncodedString()
+        
+        // Set up the request to Roboflow API
+        let apiKey = "NbbVN5cnQoPAAW8NBSNK"
+        let modelName = "weed-identification-plxb0/1"
+        let urlString = "https://detect.roboflow.com/\(modelName)/api?key=\(apiKey)"
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Construct the request body
+        let requestBody: [String: Any] = [
+            "image": base64String
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            print("Error serializing JSON: \(error)")
+            return
+        }
+        
+        // Send the request
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error uploading image: \(error)")
+                return
+            }
+            
+            if let data = data,
+               let responseString = String(data: data, encoding: .utf8) {
+                print("Upload response: \(responseString)")
+                // Handle response from Roboflow
+            }
+        }.resume()
+    }
+
 }
