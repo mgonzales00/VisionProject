@@ -5,6 +5,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var cameraPreview: UIImageView!
     
+    @IBOutlet weak var uploadButton: UIButton!
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var photoLibraryButton: UIButton!
     
@@ -33,14 +34,14 @@ class ViewController: UIViewController {
         self.present(self.imagePickerController, animated: true, completion: nil)
     }
     
-    func requestAuthorizationHandler(status: PHAuthorizationStatus){
-        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
-            print("Access granted to use Photo Library")
-        }
-        else{
-            print("We don't have access to your Photos.")
-        }
+    @IBAction func uploadToRoboflow(_ sender: Any) {
+        guard let image = cameraPreview.image else {
+                print("No image to upload")
+                return
+            }
+        uploadImage(imagepath: image)
     }
+    
     
 }
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
