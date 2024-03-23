@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imagePickerController.delegate = self // Set the delegate for UIImagePickerController
         guard let documentsDirectory = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask).first else{
@@ -36,10 +37,14 @@ class ViewController: UIViewController {
     
     @IBAction func uploadToRoboflow(_ sender: Any) {
         guard let image = cameraPreview.image else {
-                print("No image to upload")
-                return
-            }
-        uploadImage(image: image)
+            print("No image to upload")
+            return
+        }
+        if let imageURL = saveImageToImageFolder(image: image) {
+            uploadImage(imageURL: imageURL)
+        } else {
+            print("Failed to save image to file")
+        }
     }
     
 }
@@ -57,60 +62,60 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         if picker.sourceType == .camera {
             cameraPreview.image = image
             
-            
         }
         else if self.imagePickerController.sourceType == .photoLibrary{
             cameraPreview.image = image
         }
     }
     
-    func saveImageToImageFolder(image: UIImage){
+    func saveImageToImageFolder(image: UIImage) -> URL? {
         guard let documentsDirectory = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask).first else{
-            return
+            return nil
         }
         print(documentsDirectory.path)
         let imageFolderURL = documentsDirectory.appendingPathComponent("Images")
         
         do {
             try FileManager.default.createDirectory(at: imageFolderURL, withIntermediateDirectories: true,
-                attributes: nil)
+                                                    attributes: nil)
         }
         catch {
             print(error)
-            return
+            return nil
         }
         
         let fileURL = imageFolderURL.appendingPathComponent("plant.jpeg")
         
-        if let imageData = image.jpegData(compressionQuality: 1){
+        if let imageData = image.jpegData(compressionQuality: 0.6){
             do {
                 try imageData.write(to: fileURL)
                 print("Image saved")
+                return fileURL
             }
             catch{
                 print(error)
+                return nil
             }
         }
-
+        return nil
     }
-    func uploadImage(image: UIImage) {
-        // Load image data from the file path
-        
+    
+    func uploadImage(imageURL: URL) {
         // Convert the image to data
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+        guard let imageData = try? Data(contentsOf: imageURL) else {
             print("Failed to convert image to data")
             return
         }
         
         // Convert image data to base64 string
-        let base64String = imageData.base64EncodedString()
+        let base64String = imageData.base64EncodedString(options: .lineLength64Characters)
         
         // Set up the request to Roboflow API
-        let apiKey = "NbbVN5cnQoPAAW8NBSNK"
-        let modelName = "weed-identification-plxb0/1"
-        let urlString = "https://detect.roboflow.com/\(modelName)/api?key=\(apiKey)"
+        let APIKey = "NbbVN5cnQoPAAW8NBSNK"
+        let fileName = "plant.jpeg" // Update with your desired file name
+        let urlString = "https://detect.roboflow.com/weed-identification-plxb0/1?api_key=\(APIKey)&name=\(fileName)"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -118,7 +123,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
         // Construct the request body
         let requestBody: [String: Any] = [
