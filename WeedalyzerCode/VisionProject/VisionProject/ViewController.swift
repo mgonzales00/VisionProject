@@ -41,7 +41,7 @@ class ViewController: UIViewController {
             return
         }
         if let imageURL = saveImageToImageFolder(image: image) {
-            uploadImage(imageURL: imageURL)
+            uploadImageToRoboflow(imageURL: imageURL)
         } else {
             print("Failed to save image to file")
         }
@@ -102,7 +102,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         return nil
     }
     
-    func uploadImage(imageURL: URL) {
+    func uploadImageToRoboflow(imageURL: URL) {
         // Convert the image to data
         guard let imageData = try? Data(contentsOf: imageURL) else {
             print("Failed to convert image to data")
@@ -152,4 +152,11 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         }.resume()
     }
 
+    func uploadImageToVision(imagepath: String) -> String {
+        var responseString: String = ""
+        let APIKey = "AIzaSyBa8AdmhzcLtdKfECm4PwKzomdYoPGh8lc"
+        
+        return responseString
+    }
+    
 }

@@ -14,7 +14,6 @@
 		0690900B2B81D2DE0040935C /* VisionProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 069090092B81D2DE0040935C /* VisionProject.xcdatamodeld */; };
 		0690900D2B81D2E30040935C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0690900C2B81D2E30040935C /* Assets.xcassets */; };
 		069090102B81D2E30040935C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0690900E2B81D2E30040935C /* LaunchScreen.storyboard */; };
-		507D2BE22BACDDF200A359D8 /* UploadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507D2BE12BACDDF200A359D8 /* UploadImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +26,6 @@
 		0690900C2B81D2E30040935C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0690900F2B81D2E30040935C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		069090112B81D2E30040935C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		507D2BE12BACDDF200A359D8 /* UploadImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +58,6 @@
 		06908FFF2B81D2DE0040935C /* VisionProject */ = {
 			isa = PBXGroup;
 			children = (
-				507D2BE12BACDDF200A359D8 /* UploadImage.swift */,
 				069090002B81D2DE0040935C /* AppDelegate.swift */,
 				069090022B81D2DE0040935C /* SceneDelegate.swift */,
 				069090042B81D2DE0040935C /* ViewController.swift */,
@@ -152,7 +149,6 @@
 				069090052B81D2DE0040935C /* ViewController.swift in Sources */,
 				0690900B2B81D2DE0040935C /* VisionProject.xcdatamodeld in Sources */,
 				069090012B81D2DE0040935C /* AppDelegate.swift in Sources */,
-				507D2BE22BACDDF200A359D8 /* UploadImage.swift in Sources */,
 				069090032B81D2DE0040935C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
