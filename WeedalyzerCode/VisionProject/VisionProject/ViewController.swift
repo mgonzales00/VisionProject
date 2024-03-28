@@ -79,7 +79,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         do {
             try FileManager.default.createDirectory(at: imageFolderURL, withIntermediateDirectories: true,
-                                                    attributes: nil)
+                                                attributes: nil)
         }
         catch {
             print(error)
@@ -88,7 +88,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         let fileURL = imageFolderURL.appendingPathComponent("plant.jpeg")
         
-        if let imageData = image.jpegData(compressionQuality: 0.6){
+        if let imageData = image.jpegData(compressionQuality: 1){
             do {
                 try imageData.write(to: fileURL)
                 print("Image saved")
@@ -152,11 +152,9 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         }.resume()
     }
 
-    func uploadImageToVision(imagepath: String) -> String {
-        var responseString: String = ""
+    func uploadImageToVision(imagepath: String) {
         let APIKey = "AIzaSyBa8AdmhzcLtdKfECm4PwKzomdYoPGh8lc"
         
-        return responseString
     }
     
 }
