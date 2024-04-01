@@ -15,6 +15,7 @@
 		0690900D2B81D2E30040935C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0690900C2B81D2E30040935C /* Assets.xcassets */; };
 		069090102B81D2E30040935C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0690900E2B81D2E30040935C /* LaunchScreen.storyboard */; };
 		06F71A342BB7E54900A3449B /* MyImageClassifier 2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 06F71A332BB7E54800A3449B /* MyImageClassifier 2.mlmodel */; };
+		06F71A382BB9169100A3449B /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F71A372BB9169100A3449B /* PopUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		0690900F2B81D2E30040935C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		069090112B81D2E30040935C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06F71A332BB7E54800A3449B /* MyImageClassifier 2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "MyImageClassifier 2.mlmodel"; sourceTree = "<group>"; };
+		06F71A372BB9169100A3449B /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				06F71A332BB7E54800A3449B /* MyImageClassifier 2.mlmodel */,
 				069090042B81D2DE0040935C /* ViewController.swift */,
 				069090062B81D2DE0040935C /* Main.storyboard */,
+				06F71A372BB9169100A3449B /* PopUpViewController.swift */,
 				0690900C2B81D2E30040935C /* Assets.xcassets */,
 				0690900E2B81D2E30040935C /* LaunchScreen.storyboard */,
 				069090112B81D2E30040935C /* Info.plist */,
@@ -151,6 +154,7 @@
 			files = (
 				06F71A342BB7E54900A3449B /* MyImageClassifier 2.mlmodel in Sources */,
 				069090052B81D2DE0040935C /* ViewController.swift in Sources */,
+				06F71A382BB9169100A3449B /* PopUpViewController.swift in Sources */,
 				0690900B2B81D2DE0040935C /* VisionProject.xcdatamodeld in Sources */,
 				069090012B81D2DE0040935C /* AppDelegate.swift in Sources */,
 				069090032B81D2DE0040935C /* SceneDelegate.swift in Sources */,

@@ -11,7 +11,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var photoLibraryButton: UIButton!
     
+    @IBOutlet weak var labelTesting: UILabel!
+    
     var imagePickerController = UIImagePickerController()
+    var topClassificationResult: VNClassificationObservation?
     lazy var detectionRequest: VNCoreMLRequest = {
         do {
                     let model = try VNCoreMLModel(for: MyImageClassifier_2().model)
@@ -44,10 +47,6 @@ class ViewController: UIViewController {
         picker.delegate = self
         present(picker, animated: true)
         
-        let cb = UIImagePickerController()
-        cb.sourceType = .camera
-        cb.delegate = self
-        present(cb, animated: true)
     }
     
     @IBAction func tappedLibraryButton(_ sender: UIButton) {
@@ -59,24 +58,64 @@ class ViewController: UIViewController {
         present(vc, animated: true)
     }
     
-    @IBAction func uploadToRoboflow(_ sender: Any) {
+    @IBAction func uploadToRoboflow(with message: String) {
         guard let image = cameraPreview.image else {
             print("No image to upload")
             return
         }
         if let imageURL = saveImageToImageFolder(image: image) {
             uploadImageToRoboflow(imageURL: imageURL)
+            
         } else {
             print("Failed to save image to file")
         }
         
+        
+        guard presentedViewController == nil else{
+            print("PopUpViewController is already presented")
+            return
+        }
+        let popUpVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pop_up") as! PopUpViewController
+        popUpVC.detectedPlant = message
+        present(popUpVC, animated: true, completion: nil)
+        
+        
+       
+        
     }
+    
     
 }
 
 
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let image = info[.originalImage] as? UIImage else {
+            return
+        }
+        
+        self.cameraPreview?.image = image
+        
+        if picker.sourceType == .camera {
+            cameraPreview.image = image
+            
+        }
+        else if self.imagePickerController.sourceType == .photoLibrary{
+            cameraPreview.image = image
+        }
+        
+        picker.dismiss(animated: true){
+            self.updateDetections(for: image)
+        }
+        
+    }
     
     private func updateDetections(for image: UIImage) {
        
@@ -95,39 +134,24 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             
     private func processDetections(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
-            guard let results = request.results else {
-                print("Unable to classify image.\n\(error!.localizedDescription)")
-                return
+            guard let results = request.results as? [VNClassificationObservation],
+                             let topResult = results.first else {
+                           print("Unable to classify image: \(error?.localizedDescription ?? "Unknown error")")
+                           return
+                       }
+                       self.topClassificationResult = topResult
+                       print("Top result: \(topResult.identifier), confidence: \(topResult.confidence)")
+            if let topResultIdentifier = self.topClassificationResult?.identifier{
+                self.uploadToRoboflow(with: topResultIdentifier)
             }
-            
-            if let topResult = results.first as? VNClassificationObservation {
-                // Handle the classification result here
-                print("Top result: \(topResult.identifier), confidence: \(topResult.confidence)")
-                // You can update UI or perform any other action based on the classification result
-            }
-        }
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        guard let image = info[.originalImage] as? UIImage else {
-            return
         }
         
-        self.cameraPreview?.image = image
-        updateDetections(for: image)
-        if picker.sourceType == .camera {
-            cameraPreview.image = image
-            
-        }
-        else if self.imagePickerController.sourceType == .photoLibrary{
-            cameraPreview.image = image
-        }
     }
+    
+    
+    
+    
+    
     
     func saveImageToImageFolder(image: UIImage) -> URL? {
         guard let documentsDirectory = FileManager.default.urls(
@@ -196,6 +220,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             return
         }
         
+        
         // debug print full request
         //print("\(request.httpMethod!) \(request.url!)")
         //print(request.allHTTPHeaderFields!)
@@ -217,7 +242,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
 
     }
-
+    
     func uploadImageToVision(imagepath: String) {
 
         let APIKey = "AIzaSyBa8AdmhzcLtdKfECm4PwKzomdYoPGh8lc"
@@ -225,3 +250,5 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     }
     
 }
+
+

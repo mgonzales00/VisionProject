@@ -48,6 +48,13 @@
                                     <segue destination="RAX-WL-vJf" kind="show" id="vu7-5c-dHw"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Os6-zI-h68">
+                                <rect key="frame" x="90" y="775" width="217" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -56,6 +63,8 @@
                     <connections>
                         <outlet property="cameraButton" destination="CSp-nb-PDf" id="6I0-vT-qlj"/>
                         <outlet property="cameraPreview" destination="00a-8g-JPu" id="06j-dk-HyE"/>
+                        <outlet property="detectionResultLabel" destination="F0p-Bw-yQV" id="AB4-VU-IJq"/>
+                        <outlet property="labelTesting" destination="Os6-zI-h68" id="gqe-fs-huT"/>
                         <outlet property="photoLibraryButton" destination="o29-ZE-O1S" id="zzF-tO-VFx"/>
                         <outlet property="uploadButton" destination="XRR-Ys-ZTn" id="e4p-yc-BMp"/>
                     </connections>
@@ -64,11 +73,11 @@
             </objects>
             <point key="canvasLocation" x="135.1145038167939" y="3.5211267605633805"/>
         </scene>
-        <!--View Controller-->
+        <!--Pop Up View Controller-->
         <scene sceneID="EZa-ST-zEJ">
             <objects>
-                <viewController id="RAX-WL-vJf" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="yZW-pg-7dH">
+                <viewController storyboardIdentifier="pop_up" id="RAX-WL-vJf" customClass="PopUpViewController" customModule="VisionProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yZW-pg-7dH" customClass="PopUpVi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -104,11 +113,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0p-Bw-yQV">
+                                <rect key="frame" x="147" y="489" width="230" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ww7-J6-Td4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="992-rW-Jnv"/>
+                    <connections>
+                        <outlet property="detectionResultLabel" destination="F0p-Bw-yQV" id="lsA-da-yFx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rwf-gc-L8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -117,7 +136,7 @@
     </scenes>
     <resources>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
