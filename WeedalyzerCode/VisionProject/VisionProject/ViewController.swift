@@ -11,10 +11,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var photoLibraryButton: UIButton!
     
-    @IBOutlet weak var labelTesting: UILabel!
-    
     var imagePickerController = UIImagePickerController()
     var topClassificationResult: VNClassificationObservation?
+    var imageToSend: UIImage?
     lazy var detectionRequest: VNCoreMLRequest = {
         do {
                     let model = try VNCoreMLModel(for: MyImageClassifier_2().model)
@@ -75,9 +74,7 @@ class ViewController: UIViewController {
             print("PopUpViewController is already presented")
             return
         }
-        let popUpVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pop_up") as! PopUpViewController
-        popUpVC.detectedPlant = message
-        present(popUpVC, animated: true, completion: nil)
+        
         
         
        
@@ -102,7 +99,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         }
         
         self.cameraPreview?.image = image
-        
+        cameraPreview.layer.borderWidth = 6.0
+        cameraPreview.layer.borderColor = UIColor.black.cgColor
         if picker.sourceType == .camera {
             cameraPreview.image = image
             
@@ -142,13 +140,21 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
                        self.topClassificationResult = topResult
                        print("Top result: \(topResult.identifier), confidence: \(topResult.confidence)")
             if let topResultIdentifier = self.topClassificationResult?.identifier{
-                self.uploadToRoboflow(with: topResultIdentifier)
+                self.popUp(with: topResultIdentifier)
             }
         }
         
     }
     
-    
+    private func popUp(with message: String){
+        guard let image = cameraPreview.image else{
+            return
+        }
+        let popUpVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pop_up") as! PopUpViewController
+        popUpVC.detectedPlant = message
+        popUpVC.popupImage = image
+        present(popUpVC, animated: true, completion: nil)
+    }
     
     
     
