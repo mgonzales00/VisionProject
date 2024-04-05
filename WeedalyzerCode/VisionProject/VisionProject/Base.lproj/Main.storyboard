@@ -44,26 +44,19 @@
                                     <action selector="tappedLibraryButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hnq-0x-vEc"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="00a-8g-JPu">
-                                <rect key="frame" x="18" y="65" width="394" height="657"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="657" id="HEm-bH-Vkj"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfz-PX-jtA">
+                                <rect key="frame" x="20" y="80" width="390" height="682"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" systemColor="labelColor"/>
-                        <constraints>
-                            <constraint firstItem="00a-8g-JPu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="MDB-yp-9zz"/>
-                            <constraint firstItem="00a-8g-JPu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Wte-PV-SkQ"/>
-                            <constraint firstItem="00a-8g-JPu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="xpa-aS-pLd"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tbu-Rn-oKk"/>
                     <connections>
                         <outlet property="cameraButton" destination="CSp-nb-PDf" id="6I0-vT-qlj"/>
-                        <outlet property="cameraPreview" destination="00a-8g-JPu" id="06j-dk-HyE"/>
+                        <outlet property="cameraPreview" destination="Vfz-PX-jtA" id="M8r-CN-bAR"/>
                         <outlet property="detectionResultLabel" destination="F0p-Bw-yQV" id="AB4-VU-IJq"/>
                         <outlet property="photoLibraryButton" destination="o29-ZE-O1S" id="zzF-tO-VFx"/>
                     </connections>
@@ -137,16 +130,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQQ-DQ-ptT">
+                                <rect key="frame" x="39" y="502" width="347" height="88"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ww7-J6-Td4"/>
                         <color key="backgroundColor" red="0.68781971929999997" green="0.89833003280000001" blue="0.61237740519999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="992-rW-Jnv"/>
                     <connections>
+                        <outlet property="commonName" destination="gCg-U1-QLT" id="mIy-6k-8X1"/>
+                        <outlet property="descriptionBox" destination="WZG-V5-gQw" id="37c-jX-1oK"/>
                         <outlet property="detectionResultLabel" destination="F0p-Bw-yQV" id="gyY-O2-ypu"/>
+                        <outlet property="errorLabel" destination="RQQ-DQ-ptT" id="yc0-KC-KJb"/>
                         <outlet property="plantDescription" destination="1Jm-dn-10g" id="nex-mA-RHF"/>
                         <outlet property="popUpImage" destination="ITW-Kl-U5T" id="uOs-4X-FEV"/>
                         <outlet property="scientificName" destination="7sr-cS-p0b" id="Jal-wu-uDX"/>
+                        <outlet property="scientificNameLabel" destination="9ba-eY-GLc" id="9wh-2L-FUe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rwf-gc-L8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

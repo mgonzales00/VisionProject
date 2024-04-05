@@ -31,12 +31,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePickerController.delegate = self // Set the delegate for UIImagePickerController
-        guard let documentsDirectory = FileManager.default.urls(
-            for: .documentDirectory,
-            in: .userDomainMask).first else{
-            return
-        }
-        print(documentsDirectory.path)
+        
     }
     
     @IBAction func tappedCameraButton(_ sender: Any) {
@@ -44,12 +39,13 @@ class ViewController: UIViewController {
         picker.sourceType = .camera
         picker.allowsEditing = true
         picker.delegate = self
-        present(picker, animated: true)
+        present(picker, animated: true, completion: nil)
         
     }
     
     @IBAction func tappedLibraryButton(_ sender: UIButton) {
         self.imagePickerController.sourceType = .photoLibrary
+        
         self.present(self.imagePickerController, animated: true, completion: nil)
         let vc = UIImagePickerController()
         vc.sourceType = .photoLibrary
@@ -98,17 +94,16 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             return
         }
         
-        self.cameraPreview?.image = image
+        
         cameraPreview.layer.borderWidth = 6.0
         cameraPreview.layer.borderColor = UIColor.black.cgColor
         if picker.sourceType == .camera {
-            cameraPreview.image = image
-            
-        }
-        else if self.imagePickerController.sourceType == .photoLibrary{
-            cameraPreview.image = image
-        }
-        
+                    cameraPreview.image = image
+                    
+                }
+                else if self.imagePickerController.sourceType == .photoLibrary{
+                    cameraPreview.image = image
+                }
         picker.dismiss(animated: true){
             self.updateDetections(for: image)
         }

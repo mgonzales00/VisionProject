@@ -11,7 +11,11 @@ class PopUpViewController: UIViewController {
     
     @IBOutlet weak var scientificName: UILabel!
     @IBOutlet weak var plantDescription: UILabel!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var descriptionBox: UILabel!
     @IBOutlet weak var detectionResultLabel: UILabel!
+    @IBOutlet weak var commonName: UILabel!
+    @IBOutlet weak var scientificNameLabel: UILabel!
     @IBOutlet weak var popUpImage: UIImageView!
     var detectedPlant: String?
     var popupImage: UIImage?
@@ -24,6 +28,7 @@ class PopUpViewController: UIViewController {
             detectionResultLabel.textColor = UIColor.black
             scientificName.textColor = UIColor.black
             plantDescription.textColor = UIColor.black
+            errorLabel.textColor = UIColor.black
             if detectedPlant == "dandelion"{
                 detectionResultLabel.text = "Dandelion"
                 scientificName.text = "Taraxacum"
@@ -34,7 +39,14 @@ class PopUpViewController: UIViewController {
                 scientificName.text = "Cirsium"
             }
             if detectedPlant == "anything but plants"{
-                detectionResultLabel.text = "Error. No Plant Detected"
+                errorLabel.text = "Error. No Plant Detected"
+                self.view.backgroundColor = UIColor.red
+                commonName.text = ""
+                scientificNameLabel.text = ""
+                descriptionBox.text = ""
+                let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
         if let image = popupImage {
