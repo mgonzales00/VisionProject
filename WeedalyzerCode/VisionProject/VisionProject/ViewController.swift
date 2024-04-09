@@ -148,7 +148,10 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         let popUpVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pop_up") as! PopUpViewController
         popUpVC.detectedPlant = message
         popUpVC.popupImage = image
-        present(popUpVC, animated: true, completion: nil)
+        
+        present(popUpVC, animated: true){
+            popUpVC.presentErrorAlert()
+        }
     }
     
     

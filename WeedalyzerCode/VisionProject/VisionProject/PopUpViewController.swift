@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class PopUpViewController: UIViewController {
     
     @IBOutlet weak var scientificName: UILabel!
@@ -19,6 +20,16 @@ class PopUpViewController: UIViewController {
     @IBOutlet weak var popUpImage: UIImageView!
     var detectedPlant: String?
     var popupImage: UIImage?
+    var presentAlertClosure: (() -> Void)?
+    
+    func presentErrorAlert() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let alertController = UIAlertController(title: "Error", message: "No plant detected", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,21 +45,22 @@ class PopUpViewController: UIViewController {
                 scientificName.text = "Taraxacum"
                 plantDescription.text = "A dandelion is a yellow-flowered plant with fluffy seed heads. It's known for its resilience and easily dispersing seeds."
             }
-            if detectedPlant == "thistle"{
+            else if detectedPlant == "thistle"{
                 detectionResultLabel.text = "Thistle"
                 scientificName.text = "Cirsium"
             }
-            if detectedPlant == "anything but plants"{
+            else if detectedPlant == "anything but plants"{
                 errorLabel.text = "Error. No Plant Detected"
                 self.view.backgroundColor = UIColor.red
                 commonName.text = ""
                 scientificNameLabel.text = ""
                 descriptionBox.text = ""
-                let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                presentAlertClosure?()
             }
+            
+            
         }
+        
         if let image = popupImage {
             popUpImage.layer.borderWidth = 4.0
             popUpImage.layer.borderColor = UIColor.black.cgColor
