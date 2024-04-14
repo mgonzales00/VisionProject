@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     var imageToSend: UIImage?
     lazy var detectionRequest: VNCoreMLRequest = {
         do {
-                    let model = try VNCoreMLModel(for: MyImageClassifier_2().model)
+                    let model = try VNCoreMLModel(for: Weedalyzer_3().model)
                     let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
                         self?.processDetections(for: request, error: error)
                     })
@@ -149,9 +149,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         popUpVC.detectedPlant = message
         popUpVC.popupImage = image
         
-        present(popUpVC, animated: true){
-            popUpVC.presentErrorAlert()
-        }
+        present(popUpVC, animated: true)
     }
     
     
